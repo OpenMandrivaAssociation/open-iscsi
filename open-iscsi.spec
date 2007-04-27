@@ -1,11 +1,11 @@
 %define module_name dkms-open-iscsi
-%define revision 485
+%define revision 754
 %define with_dkms 0
 
 Name: open-iscsi
 Summary: An implementation of RFC3720 iSCSI
-Version: 1.0
-Release: %mkrel 1.%{revision}.2
+Version: 2.0
+Release: %mkrel 1.%{revision}
 License: GPL
 Group: Networking/Other
 Source0: http://www.open-iscsi.org/bits/open-iscsi-%{version}-%{revision}.tar.gz
@@ -13,6 +13,7 @@ Source1: open-iscsi.init
 Source2: initiatorname.iscsi
 Patch: open-iscsi-1.0-awkfix.patch
 URL: http://www.open-iscsi.org
+BuildRequires: glibc-static-devel
 BuildRequires: libdb-devel
 BuildRequires: sed
 BuildRoot: %{_tmppath}/%{name}-%{version}-root-%(id -u -n)
@@ -57,6 +58,8 @@ rm -rf $RPM_BUILD_ROOT
 		install_initd
 
 mkdir -p -m 0700 %{buildroot}%{_localstatedir}/open-iscsi
+mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/iscsi/nodes
+mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/iscsi/send_targets
 
 # init script
 mkdir -p %{buildroot}%{_initrddir}
@@ -92,7 +95,7 @@ EOF
 %endif # dkms
 
 # sample initiatorname file
-install -m 0644 %{_sourcedir}/initiatorname.iscsi %{buildroot}%{_sysconfdir}
+install -m 0644 %{_sourcedir}/initiatorname.iscsi %{buildroot}%{_sysconfdir}/iscsi
 
 %post
 %_post_service open-iscsi
@@ -118,13 +121,18 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc README COPYING
-%config(noreplace) %attr(0600,root,root) %{_sysconfdir}/iscsid.conf
-%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/initiatorname.iscsi
+%dir %{_sysconfdir}/iscsi
+%dir %{_sysconfdir}/iscsi/nodes
+%dir %{_sysconfdir}/iscsi/send_targets
+%config(noreplace) %attr(0600,root,root) %{_sysconfdir}/iscsi/iscsid.conf
+%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/iscsi/initiatorname.iscsi
 %{_initrddir}/open-iscsi
-%{_sbindir}/iscsiadm
-%{_sbindir}/iscsid
+/sbin/iscsiadm
+/sbin/iscsid
+/sbin/iscsi_discovery
 %{_mandir}/man8/iscsiadm.8*
 %{_mandir}/man8/iscsid.8*
+%{_mandir}/man8/iscsi_discovery.8*
 %dir %{_localstatedir}/open-iscsi
 
 %if %{with_dkms}
@@ -132,5 +140,3 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %_usrsrc/%{module_name}-%{version}
 %endif
-
-
