@@ -1,11 +1,11 @@
 %define module_name dkms-open-iscsi
-%define revision 754
+%define revision 865.3
 %define with_dkms 0
 
 Name: open-iscsi
 Summary: An implementation of RFC3720 iSCSI
 Version: 2.0
-Release: %mkrel %{revision}.2
+Release: %mkrel %{revision}.1
 License: GPL
 Group: Networking/Other
 Source0: http://www.open-iscsi.org/bits/open-iscsi-%{version}-%{revision}.tar.gz
@@ -44,13 +44,17 @@ for arq in doc/{iscsiadm,iscsid}.8 README usr/initiator.h; do
 done
 
 %build
+%serverbuild
 %make -C usr
+%make -C utils
 
 %install
 rm -rf $RPM_BUILD_ROOT
-# install only the user level part
-%make \
-		DESTDIR=%{buildroot} \
+# install only the user level part, so don't use makeinstall_dtd
+# as it will use the "install" target, which will install the
+# kernel part too
+make \
+                DESTDIR=%{buildroot} \
 		initddir=%{_initrddir} \
 		install_programs \
 		install_doc \
@@ -129,7 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_initrddir}/open-iscsi
 /sbin/iscsiadm
 /sbin/iscsid
+/sbin/iscsi-iname
 /sbin/iscsi_discovery
+/sbin/fwparam_ibft
 %{_mandir}/man8/iscsiadm.8*
 %{_mandir}/man8/iscsid.8*
 %{_mandir}/man8/iscsi_discovery.8*
