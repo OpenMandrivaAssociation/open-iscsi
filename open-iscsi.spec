@@ -1,5 +1,5 @@
 %define module_name dkms-open-iscsi
-%define revision 865.3
+%define revision 865.9
 %define with_dkms 0
 
 Name: open-iscsi
