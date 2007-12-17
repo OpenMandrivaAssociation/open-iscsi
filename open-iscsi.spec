@@ -1,5 +1,5 @@
 %define module_name dkms-open-iscsi
-%define revision 865.9
+%define revision 865.15
 %define with_dkms 0
 
 Name: open-iscsi
@@ -8,15 +8,14 @@ Version: 2.0
 Release: %mkrel %{revision}.1
 License: GPL
 Group: Networking/Other
+URL: http://www.open-iscsi.org
 Source0: http://www.open-iscsi.org/bits/open-iscsi-%{version}-%{revision}.tar.gz
 Source1: open-iscsi.init
 Source2: initiatorname.iscsi
 Patch: open-iscsi-1.0-awkfix.patch
-URL: http://www.open-iscsi.org
 BuildRequires: glibc-static-devel
 BuildRequires: libdb-devel
-BuildRequires: sed
-BuildRoot: %{_tmppath}/%{name}-%{version}-root-%(id -u -n)
+BuildRoot: %{_tmppath}/%{name}-%{version}
 
 %description
 Open-iSCSI project is a high-performance, transport independent, multi-platform
@@ -49,7 +48,7 @@ done
 %make -C utils
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 # install only the user level part, so don't use makeinstall_dtd
 # as it will use the "install" target, which will install the
 # kernel part too
@@ -120,7 +119,7 @@ dkms remove -m %{module_name} -v %{version} --rpm_safe_upgrade --all || :
 %endif
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
