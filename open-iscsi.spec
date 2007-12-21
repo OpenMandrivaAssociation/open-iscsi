@@ -15,6 +15,7 @@ Source2: initiatorname.iscsi
 Patch: open-iscsi-1.0-awkfix.patch
 BuildRequires: glibc-static-devel
 BuildRequires: libdb-devel
+BuildRoot: %{_tmppath}/%{name}-%{version}
 
 %description
 Open-iSCSI project is a high-performance, transport independent, multi-platform
