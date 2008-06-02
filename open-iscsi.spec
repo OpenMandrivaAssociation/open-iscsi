@@ -39,7 +39,7 @@ This package contains the open-iscsi initiator kernel module.
 chmod 0644 README Makefile COPYING etc/iscsid.conf
 
 for arq in doc/{iscsiadm,iscsid}.8 README usr/initiator.h; do
-	sed -i -e "s,/var/db/iscsi,%{_localstatedir}/open-iscsi,g" $arq
+	sed -i -e "s,/var/db/iscsi,%{_localstatedir}/lib/open-iscsi,g" $arq
 done
 
 %build
@@ -60,7 +60,7 @@ make \
 		install_etc \
 		install_initd
 
-mkdir -p -m 0700 %{buildroot}%{_localstatedir}/open-iscsi
+mkdir -p -m 0700 %{buildroot}%{_localstatedir}/lib/open-iscsi
 mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/iscsi/nodes
 mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/iscsi/send_targets
 
@@ -138,7 +138,7 @@ rm -rf %{buildroot}
 %{_mandir}/man8/iscsiadm.8*
 %{_mandir}/man8/iscsid.8*
 %{_mandir}/man8/iscsi_discovery.8*
-%dir %{_localstatedir}/open-iscsi
+%dir %{_localstatedir}/lib/open-iscsi
 
 %if %{with_dkms}
 %files -n %{module_name}
