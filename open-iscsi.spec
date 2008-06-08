@@ -1,20 +1,20 @@
 %define module_name dkms-open-iscsi
-%define revision 865.15
+%define revision 869.2
 %define with_dkms 0
 
-Name: open-iscsi
-Summary: An implementation of RFC3720 iSCSI
-Version: 2.0
-Release: %mkrel %{revision}.1
-License: GPL
-Group: Networking/Other
-URL: http://www.open-iscsi.org
-Source0: http://www.open-iscsi.org/bits/open-iscsi-%{version}-%{revision}.tar.gz
-Source1: open-iscsi.init
-Source2: initiatorname.iscsi
-Patch: open-iscsi-1.0-awkfix.patch
+Name:       open-iscsi
+Version:    2.0
+Release:    %mkrel %{revision}.1
+Summary:    An implementation of RFC3720 iSCSI
+License:    GPL
+Group:      Networking/Other
+URL:        http://www.open-iscsi.org
+Source0:    http://www.open-iscsi.org/bits/open-iscsi-%{version}-%{revision}.tar.gz
+Source1:    open-iscsi.init
+Source2:    initiatorname.iscsi
+Patch:      open-iscsi-1.0-awkfix.patch
 BuildRequires: glibc-static-devel
-BuildRequires: libdb-devel
+BuildRequires: db-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}
 
 %description
@@ -44,6 +44,7 @@ done
 
 %build
 %serverbuild
+%make -C utils/fwparam_ibft
 %make -C usr
 %make -C utils
 
@@ -134,7 +135,7 @@ rm -rf %{buildroot}
 /sbin/iscsid
 /sbin/iscsi-iname
 /sbin/iscsi_discovery
-/sbin/fwparam_ibft
+#/sbin/fwparam_ibft
 %{_mandir}/man8/iscsiadm.8*
 %{_mandir}/man8/iscsid.8*
 %{_mandir}/man8/iscsi_discovery.8*
