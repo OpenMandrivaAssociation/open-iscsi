@@ -1,10 +1,10 @@
 %define module_name dkms-open-iscsi
-%define revision 869.2
+%define revision 871
 %define with_dkms 0
 
 Name:       open-iscsi
 Version:    2.0
-Release:    %mkrel %{revision}.2
+Release:    %mkrel %{revision}.1
 Summary:    An implementation of RFC3720 iSCSI
 License:    GPL
 Group:      Networking/Other
@@ -12,7 +12,8 @@ URL:        http://www.open-iscsi.org
 Source0:    http://www.open-iscsi.org/bits/open-iscsi-%{version}-%{revision}.tar.gz
 Source1:    open-iscsi.init
 Source2:    initiatorname.iscsi
-Patch:      open-iscsi-1.0-awkfix.patch
+Patch0:      open-iscsi-1.0-awkfix.patch
+Patch1:		open-iscsi-2.0-871-etc_iscsi.patch
 BuildRequires: glibc-static-devel
 BuildRequires: db-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}
@@ -36,6 +37,7 @@ This package contains the open-iscsi initiator kernel module.
 
 %prep
 %setup -q -n %{name}-%{version}-%{revision}
+%patch1 -p1 -b .etc_iscsi
 chmod 0644 README Makefile COPYING etc/iscsid.conf
 
 for arq in doc/{iscsiadm,iscsid}.8 README usr/initiator.h; do
@@ -44,9 +46,7 @@ done
 
 %build
 %serverbuild
-%make -C utils/fwparam_ibft
-%make -C usr
-%make -C utils
+%make user
 
 %install
 rm -rf %{buildroot}
@@ -56,10 +56,7 @@ rm -rf %{buildroot}
 make \
                 DESTDIR=%{buildroot} \
 		initddir=%{_initrddir} \
-		install_programs \
-		install_doc \
-		install_etc \
-		install_initd
+		install_user
 
 mkdir -p -m 0700 %{buildroot}%{_localstatedir}/lib/open-iscsi
 mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/iscsi/nodes
@@ -126,6 +123,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc README COPYING
 %dir %{_sysconfdir}/iscsi
+%{_sysconfdir}/iscsi/ifaces
 %dir %{_sysconfdir}/iscsi/nodes
 %dir %{_sysconfdir}/iscsi/send_targets
 %config(noreplace) %attr(0600,root,root) %{_sysconfdir}/iscsi/iscsid.conf
