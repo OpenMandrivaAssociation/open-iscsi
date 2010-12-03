@@ -14,6 +14,7 @@ Source1:    open-iscsi.init
 Source2:    initiatorname.iscsi
 Patch0:      open-iscsi-1.0-awkfix.patch
 Patch1:		open-iscsi-2.0-871-etc_iscsi.patch
+Patch2:		open-iscsi-2.0-871-gcc451.diff
 BuildRequires: glibc-static-devel
 BuildRequires: db-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}
@@ -38,6 +39,7 @@ This package contains the open-iscsi initiator kernel module.
 %prep
 %setup -q -n %{name}-%{version}-%{revision}
 %patch1 -p1 -b .etc_iscsi
+%patch2 -p0
 chmod 0644 README Makefile COPYING etc/iscsid.conf
 
 for arq in doc/{iscsiadm,iscsid}.8 README usr/initiator.h; do
