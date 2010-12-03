@@ -4,7 +4,7 @@
 
 Name:       open-iscsi
 Version:    2.0
-Release:    %mkrel %{revision}.2
+Release:    %mkrel %{revision}.3
 Summary:    An implementation of RFC3720 iSCSI
 License:    GPL
 Group:      Networking/Other
