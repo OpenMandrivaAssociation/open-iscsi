@@ -1,0 +1,10 @@
+--- usr/iscsi_sysfs.c	2009-07-11 05:55:58.000000000 +0200
++++ usr/iscsi_sysfs.c.oden	2010-12-03 19:20:53.912823726 +0100
+@@ -22,6 +22,7 @@
+ #include <string.h>
+ #include <errno.h>
+ #include <dirent.h>
++#include <sys/stat.h>
+ 
+ #include "log.h"
+ #include "initiator.h"

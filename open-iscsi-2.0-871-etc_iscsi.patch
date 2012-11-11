@@ -1,0 +1,15 @@
+--- open-iscsi-2.0-871/Makefile.iscsi_conf	2009-07-11 05:55:58.000000000 +0200
++++ open-iscsi-2.0-871/Makefile	2009-08-30 08:27:50.000000000 +0200
+@@ -109,10 +109,8 @@ install_iface: $(IFACEFILES)
+ 	$(INSTALL) -m 644 $^ $(DESTDIR)$(etcdir)/iscsi/ifaces
+ 
+ install_etc: $(ETCFILES)
+-	if [ ! -f /etc/iscsi/iscsid.conf ]; then \
+-		$(INSTALL) -d $(DESTDIR)$(etcdir)/iscsi ; \
+-		$(INSTALL) -m 644 $^ $(DESTDIR)$(etcdir)/iscsi ; \
+-	fi
++	$(INSTALL) -d $(DESTDIR)$(etcdir)/iscsi ; 
++	$(INSTALL) -m 644 $^ $(DESTDIR)$(etcdir)/iscsi ;
+ 
+ install_doc: $(MANPAGES)
+ 	$(INSTALL) -d $(DESTDIR)$(mandir)/man8

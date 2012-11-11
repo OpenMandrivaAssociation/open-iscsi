@@ -1,0 +1,11 @@
+--- open-iscsi-1.0-485/kernel/Makefile.orig	2006-10-18 09:07:31.000000000 -0200
++++ open-iscsi-1.0-485/kernel/Makefile	2006-10-18 09:07:32.000000000 -0200
+@@ -28,7 +28,7 @@
+ KBUILD_BASE = +$(MAKE) -C $(KSRC) M=`pwd` $(KARCH) V=$(V)
+ 
+ # fun stuff for maintaining multiple versions
+-KSUBLEVEL = $(shell cat $(KSRC)/Makefile | awk -F= '/^SUBLEVEL =/ {print $$2}' | \
++KSUBLEVEL = $(shell cat $(KSRC)/Makefile | awk -F= '/^SUBLEVEL =/ {print $2}' | \
+ 		sed 's/^[ \t]*//;s/[ \t]*$$//')
+ 
+ ifeq ($(KSUBLEVEL), 11)
