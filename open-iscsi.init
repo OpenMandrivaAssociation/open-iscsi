@@ -1,0 +1,154 @@
+#!/bin/sh
+#
+# chkconfig: 345 13 87
+# description: Starts and stops the iSCSI initiator
+#
+# pidfile: /var/run/iscsid.pid
+# config:  /etc/iscsid.conf
+# processname: iscsid
+
+### BEGIN INIT INFO
+# Provides: open-iscsi
+# Required-Start: $network
+# Required-Stop: $network
+# Default-Start: 3 4 5
+# Short-Description: iSCSI initiator
+# Description: Starts and stops the iSCSI initiator
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+
+ISCSID=`which iscsid`
+ISCSIADM=`which iscsiadm`
+
+if [ -z "$ISCSID" -o -z "$ISCSIADM" ]; then
+	gprintf "open-iscsi not installed.\n"
+	exit 1
+fi
+
+start_iscsid()
+{
+	modprobe -q iscsi_tcp
+	modprobe -q ib_iser
+	daemon $ISCSID
+	return $?
+}
+
+attach_nodes()
+{
+	gprintf "Attaching nodes: "
+	$ISCSIADM -m node --loginall=automatic
+	# failure to attach a node is not a failure of starting the service
+	if [ "$?" -eq "0" ]; then
+		echo_success
+	else
+		echo_failure
+	fi
+	return 0
+}
+
+detach_nodes()
+{
+	sync
+	gprintf "Detaching nodes: "
+	$ISCSIADM -m node --logoutall=all
+	if [ "$?" -eq "0" ]; then
+		echo_success
+	else
+		echo_failure
+	fi
+	echo
+	return 0
+}
+    
+stop_iscsid()
+{
+	# XXX - the pid file only has one pid, but we have two daemons
+	killall -HUP `basename $ISCSID`
+	RETVAL=$?
+	modprobe -r iscsi_tcp 2>/dev/null
+	modprobe -r ib_iser 2>/dev/null
+	return $RETVAL
+}
+
+start()
+{
+	RETVAL=0
+	gprintf "Starting %s service: " "iSCSI initiator"
+	PID=`pidofproc $ISCSID`
+	if [ -z $PID ]; then
+		start_iscsid
+	fi
+	if [ $RETVAL == "0" ]; then
+		echo_success
+		echo
+		touch /var/lock/subsys/open-iscsi
+		attach_nodes
+	else
+		echo_failure
+	fi
+	echo
+	return $RETVAL
+}
+
+stop()
+{
+	RETVAL=0
+	PID=`pidofproc $ISCSID`
+	RETVAL=$?
+	if [ -n "$PID" ]; then
+		detach_nodes
+	fi
+	gprintf "Stopping %s service: " "iSCSI initiator"
+	if [ -n "$PID" ]; then
+		stop_iscsid
+		RETVAL=$?
+	fi
+	if [ "$RETVAL" == "0" ]; then
+		echo_success
+		rm -f /var/lock/subsys/open-iscsi
+		rm -f /var/run/iscsid.pid
+	else
+		echo_failure
+	fi
+	echo
+	return $RETVAL
+}
+
+restart()
+{
+	stop
+	start
+	return $?
+}
+
+case "$1" in
+  start)
+	start
+	RETVAL=$?
+	;;
+  stop)
+	stop
+	RETVAL=$?
+	;;
+  restart)
+	restart
+	RETVAL=$?
+	;;
+  status)
+	status `basename $ISCSID`
+	RETVAL=$?
+	if [ "$RETVAL" -eq "0" ]; then
+		gprintf "Active sessions:\n"
+		$ISCSIADM -m session
+	fi
+	;;
+  *)
+	gprintf "Usage: %s {start|stop|restart|status}\n" "open-iscsi"
+	exit 1
+esac
+
+exit $RETVAL

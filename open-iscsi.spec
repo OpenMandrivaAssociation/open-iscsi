@@ -4,7 +4,7 @@
 
 Name:       open-iscsi
 Version:    2.0
-Release:    %mkrel %{revision}.4
+Release:    %mkrel %{revision}.5
 Summary:    An implementation of RFC3720 iSCSI
 License:    GPL
 Group:      Networking/Other
@@ -146,3 +146,82 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %_usrsrc/%{module_name}-%{version}
 %endif
+
+
+%changelog
+* Wed May 04 2011 Oden Eriksson <oeriksson@mandriva.com> 2.0-871.4mdv2011.0
++ Revision: 666945
+- mass rebuild
+
+* Fri Dec 03 2010 Oden Eriksson <oeriksson@mandriva.com> 2.0-871.3mdv2011.0
++ Revision: 607175
+- fix build
+- rebuild
+
+* Wed Mar 17 2010 Oden Eriksson <oeriksson@mandriva.com> 2.0-871.2mdv2010.1
++ Revision: 523494
+- rebuilt for 2010.1
+
+* Sun Aug 30 2009 Andrey Borzenkov <arvidjaar@mandriva.org> 2.0-871.1mdv2010.0
++ Revision: 422368
+- new version 871 with current kernel support, including
+  * patch1 - install contents of /etc/iscsi unconditionally
+  * install ifaces.example as well
+  * call top-level target `user' instead of explicitly listing sub-targets
+
+* Fri Aug 08 2008 Thierry Vignaud <tv@mandriva.org> 2.0-869.2.2mdv2009.0
++ Revision: 268349
+- rebuild early 2009.0 package (before pixel changes)
+
+* Sun Jun 08 2008 Guillaume Rousse <guillomovitch@mandriva.org> 2.0-869.2.1mdv2009.0
++ Revision: 216909
+- new version
+
+  + Pixel <pixel@mandriva.com>
+    - adapt to %%_localstatedir now being /var instead of /var/lib (#22312)
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Mon Dec 17 2007 Guillaume Rousse <guillomovitch@mandriva.org> 2.0-865.15.1mdv2008.1
++ Revision: 121685
+- new version
+
+* Wed Aug 08 2007 Olivier Thauvin <nanardon@mandriva.org> 2.0-865.9.1mdv2008.0
++ Revision: 60115
+- 2.0-865.9
+
+* Thu Jun 28 2007 Andreas Hasenack <andreas@mandriva.com> 2.0-865.3.1mdv2008.0
++ Revision: 45542
+- updated to version 2.0-865.3
+- using serverbuild macro (-fstack-protector-all)
+
+* Mon May 14 2007 Herton Ronaldo Krzesinski <herton@mandriva.com.br> 2.0-754.2mdv2008.0
++ Revision: 26738
+- Updated initscript for new version.
+
+* Fri Apr 27 2007 Herton Ronaldo Krzesinski <herton@mandriva.com.br> 2.0-1.754mdv2008.0
++ Revision: 18675
+- Updated to 2.0-754.
+- Added missing BuildRequires for glibc-static-devel.
+- Own nodes and send_targets directories.
+
+
+* Wed Nov 22 2006 Andreas Hasenack <andreas@mandriva.com> 1.0-1.485.2mdv2007.0
++ Revision: 86334
+- several initscript improvements, taken from CS4 package
+- awk patch to fix kernel versioning detection during build
+- provide a default initiatorname.iscsi file to ease configuration
+- add support for dkms build, also taken from CS4 (disabled by default)
+- cleanup on stop, touch on start
+- workaround to kill the two daemons
+- use HUP instead of KILL to stop the daemon
+- fixed db path
+- added sed to buildrequires
+- added initial workings of an init script
+- register service
+- Import open-iscsi
+
