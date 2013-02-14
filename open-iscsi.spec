@@ -93,7 +93,7 @@ EOF
 %endif # dkms
 
 # sample initiatorname file
-install -m 0644 %{_sourcedir}/initiatorname.iscsi %{buildroot}%{_sysconfdir}/iscsi
+install -m 0644 %SOURCE2 %{buildroot}%{_sysconfdir}/iscsi
 
 %post
 %_post_service open-iscsi
