@@ -10,7 +10,7 @@ License:	GPL
 Group:		Networking/Other
 Url:		http://www.open-iscsi.org
 Source0:	http://www.open-iscsi.org/bits/open-iscsi-%{version}-%{revision}.tar.gz
-Source1:	open-iscsi.init
+Source1:	open-iscsi.service
 Source2:	initiatorname.iscsi
 Patch1:		open-iscsi-2.0-871-etc_iscsi.patch
 
@@ -52,7 +52,7 @@ done
 # kernel part too
 make \
 	DESTDIR=%{buildroot} \
-	initddir=%{_initrddir} \
+	initddir=%{_unitdir} \
 	install_user
 
 mkdir -p -m 0700 %{buildroot}%{_localstatedir}/lib/open-iscsi
@@ -60,8 +60,9 @@ mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/iscsi/nodes
 mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/iscsi/send_targets
 
 # init script
-mkdir -p %{buildroot}%{_initrddir}
-install -m 0755 %{SOURCE1} %{buildroot}%{_initrddir}/open-iscsi
+mkdir -p %{buildroot}%{_unitdir}
+install -m 0755 %{SOURCE1} %{buildroot}%{_unitdir}/open-iscsi.service
+rm %{buildroot}%{_unitdir}/open-iscsi
 
 # DKMS
 %if %{with_dkms}
@@ -121,7 +122,7 @@ dkms remove -m %{module_name} -v %{version} --rpm_safe_upgrade --all || :
 %dir %{_sysconfdir}/iscsi/send_targets
 %config(noreplace) %attr(0600,root,root) %{_sysconfdir}/iscsi/iscsid.conf
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/iscsi/initiatorname.iscsi
-%{_initrddir}/open-iscsi
+%{_unitdir}/open-iscsi.service
 /sbin/iscsiadm
 /sbin/iscsid
 /sbin/iscsi-iname
@@ -136,4 +137,3 @@ dkms remove -m %{module_name} -v %{version} --rpm_safe_upgrade --all || :
 %files -n %{module_name}
 %_usrsrc/%{module_name}-%{version}
 %endif
-
