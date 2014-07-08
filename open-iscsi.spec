@@ -41,10 +41,11 @@ chmod 0644 README Makefile COPYING etc/iscsid.conf
 for arq in doc/{iscsiadm,iscsid}.8 README usr/initiator.h; do
 	sed -i -e "s,/var/db/iscsi,%{_localstatedir}/lib/open-iscsi,g" $arq
 done
+%before_configure
 
 %build
 %serverbuild
-%make user
+%make user CC=%{__cc}
 
 %install
 # install only the user level part, so don't use makeinstall_dtd
