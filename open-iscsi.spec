@@ -1,6 +1,8 @@
 %define module_name dkms-open-iscsi
 %define revision 873
 %define with_dkms 0
+%define _disable_lto 1
+%define _disable_rebuild_configure 1
 
 Summary:	An implementation of RFC3720 iSCSI
 Name:		open-iscsi
@@ -45,7 +47,7 @@ done
 
 %build
 %serverbuild
-%make user CC=%{__cc}
+%make user CC='gcc -fgnu89-inline'
 
 %install
 # install only the user level part, so don't use makeinstall_dtd
