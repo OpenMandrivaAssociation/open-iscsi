@@ -1,5 +1,5 @@
 %define module_name dkms-open-iscsi
-%define revision 873
+%define revision 876
 %define with_dkms 0
 %define _disable_lto 1
 %define _disable_rebuild_configure 1
@@ -11,13 +11,15 @@ Release:	%{revision}.1
 License:	GPL
 Group:		Networking/Other
 Url:		http://www.open-iscsi.org
-Source0:	http://www.open-iscsi.org/bits/open-iscsi-%{version}-%{revision}.tar.gz
+Source0:	https://github.com/open-iscsi/open-iscsi/archive/%{version}.%{revision}.tar.gz
 Source1:	open-iscsi.service
 Source2:	initiatorname.iscsi
-Patch1:		open-iscsi-2.0-871-etc_iscsi.patch
+#Patch1:		open-iscsi-2.0-871-etc_iscsi.patch
+Patch2:		open-iscsi-2.0.876-Makefiles.patch
 
 BuildRequires:	glibc-static-devel
 BuildRequires:	db-devel
+BuildRequires:	open-isns-devel
 
 %description
 Open-iSCSI project is a high-performance, transport independent, multi-platform
@@ -36,7 +38,7 @@ This package contains the open-iscsi initiator kernel module.
 %endif # dkms
 
 %prep
-%setup -qn %{name}-%{version}-%{revision}
+%setup -qn %{name}-%{version}.%{revision}
 %apply_patches
 chmod 0644 README Makefile COPYING etc/iscsid.conf
 
@@ -47,7 +49,7 @@ done
 
 %build
 %serverbuild
-%make user CC='gcc -fgnu89-inline'
+%make user
 
 %install
 # install only the user level part, so don't use makeinstall_dtd
@@ -130,10 +132,12 @@ dkms remove -m %{module_name} -v %{version} --rpm_safe_upgrade --all || :
 /sbin/iscsid
 /sbin/iscsi-iname
 /sbin/iscsi_discovery
+/sbin/iscsi-gen-initiatorname
+/sbin/iscsi_fw_login
+/sbin/iscsi_offload
+/sbin/iscsiuio
 #/sbin/fwparam_ibft
-%{_mandir}/man8/iscsiadm.8*
-%{_mandir}/man8/iscsid.8*
-%{_mandir}/man8/iscsi_discovery.8*
+%{_mandir}/man8/iscsi*.8*
 %dir %{_localstatedir}/lib/open-iscsi
 
 %if %{with_dkms}

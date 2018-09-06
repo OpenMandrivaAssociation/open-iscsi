@@ -1,4 +1,2 @@
-removed_sources:
-  open-iscsi-2.0-871.tar.gz: 968baf16d4094fb9842bc04b0fe8109103356252
 sources:
-  open-iscsi-2.0-873.tar.gz: d72c00d5bad16a2d8c77811441b50ac527af57d9
+  2.0.876.tar.gz: e0e94c5b95b4f3f65f23f611562f50fb24272c41
