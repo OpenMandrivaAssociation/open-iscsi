@@ -18,8 +18,10 @@ Source2:	initiatorname.iscsi
 Patch2:		open-iscsi-2.0.876-Makefiles.patch
 
 BuildRequires:	glibc-static-devel
+BuildRequires:	glibc-devel
 BuildRequires:	db-devel
 BuildRequires:	open-isns-devel
+BuildRequires:	openssl-devel
 BuildRequires:	pkgconfig(mount)
 
 %description
