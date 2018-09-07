@@ -20,6 +20,7 @@ Patch2:		open-iscsi-2.0.876-Makefiles.patch
 BuildRequires:	glibc-static-devel
 BuildRequires:	db-devel
 BuildRequires:	open-isns-devel
+BuildRequires:	pkgconfig(mount)
 
 %description
 Open-iSCSI project is a high-performance, transport independent, multi-platform
