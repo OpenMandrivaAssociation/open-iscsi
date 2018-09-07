@@ -4,6 +4,11 @@
 %define _disable_lto 1
 %define _disable_rebuild_configure 1
 
+
+%define major	0
+%define libname	%mklibname openiscsiusr %{major}
+%define devname	%mklibname -d openiscsiusr
+
 Summary:	An implementation of RFC3720 iSCSI
 Name:		open-iscsi
 Version:	2.0
@@ -28,6 +33,24 @@ BuildRequires:	pkgconfig(mount)
 Open-iSCSI project is a high-performance, transport independent, multi-platform
 implementation of RFC3720 iSCSI. iSCSI is a protocol for distributed disk
 access using SCSI commands sent over Internet Protocol networks.
+
+%package -n	%{libname}
+Summary:	Library for %{name}
+Group:		System/Libraries
+
+%description -n	%{libname}
+Open-iSCSI project is a high-performance, transport independent, multi-platform
+implementation of RFC3720 iSCSI. iSCSI is a protocol for distributed disk
+access using SCSI commands sent over Internet Protocol networks.
+
+%package -n	%{devname}
+Summary:	Development files for %{name}
+Group:		Development/C
+Requires:	%{libname} = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
+
+%description -n	%{devname}
+This package includes the development files for %{name}.
 
 %if %{with_dkms}
 %package -n %{module_name}
@@ -61,7 +84,7 @@ done
 make \
 	DESTDIR=%{buildroot} \
 	initddir=%{_unitdir} \
-	install_user
+	install
 
 mkdir -p -m 0700 %{buildroot}%{_localstatedir}/lib/open-iscsi
 mkdir -p -m 0755 %{buildroot}%{_sysconfdir}/iscsi/nodes
@@ -142,6 +165,14 @@ dkms remove -m %{module_name} -v %{version} --rpm_safe_upgrade --all || :
 #/sbin/fwparam_ibft
 %{_mandir}/man8/iscsi*.8*
 %dir %{_localstatedir}/lib/open-iscsi
+
+%files -n %{libname}
+%{_libdir}/libopeniscsiusr.so.%{major}*
+
+%files -n %{devname}
+%{_includedir}/libopeniscsiusr*.h
+%{_libdir}/libopeniscsiusr.so
+%{_libdir}/pkgconfig/libopeniscsiusr.pc
 
 %if %{with_dkms}
 %files -n %{module_name}
