@@ -11,7 +11,7 @@
 Summary:	An implementation of RFC3720 iSCSI
 Name:		open-iscsi
 Version:	2.0.876
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Other
 Url:		http://www.open-iscsi.org
