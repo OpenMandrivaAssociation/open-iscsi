@@ -29,6 +29,7 @@ BuildRequires:	open-isns-devel
 BuildRequires:	openssl-devel
 BuildRequires:	pkgconfig(mount)
 BuildRequires:	pkgconfig(libkmod)
+BuildRequires:	pkgconfig(systemd)
 
 %description
 Open-iSCSI project is a high-performance, transport independent, multi-platform
