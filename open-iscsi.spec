@@ -20,6 +20,7 @@ Source1:	open-iscsi.service
 Source2:	initiatorname.iscsi
 #Patch1:		open-iscsi-2.0-871-etc_iscsi.patch
 Patch2:		open-iscsi-2.0.876-Makefiles.patch
+Patch3:		0001-libkmod.patch
 
 BuildRequires:	glibc-static-devel
 BuildRequires:	glibc-devel
