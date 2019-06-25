@@ -10,7 +10,7 @@
 
 Summary:	An implementation of RFC3720 iSCSI
 Name:		open-iscsi
-Version:	2.0.876
+Version:	2.0.877
 Release:	2
 License:	GPL
 Group:		Networking/Other
@@ -27,6 +27,7 @@ BuildRequires:	db-devel
 BuildRequires:	open-isns-devel
 BuildRequires:	openssl-devel
 BuildRequires:	pkgconfig(mount)
+BuildRequires:	pkgconfig(libkmod)
 
 %description
 Open-iSCSI project is a high-performance, transport independent, multi-platform
