@@ -67,7 +67,7 @@ This package contains the open-iscsi initiator kernel module.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 chmod 0644 README Makefile COPYING etc/iscsid.conf
 
 for arq in doc/{iscsiadm,iscsid}.8 README usr/initiator.h; do
