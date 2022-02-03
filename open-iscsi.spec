@@ -3,30 +3,29 @@
 %define _disable_lto 1
 %define _disable_rebuild_configure 1
 
-
 %define major	0
 %define libname	%mklibname openiscsiusr %{major}
 %define devname	%mklibname -d openiscsiusr
 
 Summary:	An implementation of RFC3720 iSCSI
 Name:		open-iscsi
-Version:	2.0.877
-Release:	2
+Version:	2.1.5
+Release:	1
 License:	GPL
 Group:		Networking/Other
 Url:		http://www.open-iscsi.org
-Source0:	https://github.com/open-iscsi/open-iscsi/archive/%{version}.tar.gz
+Source0:	https://github.com/open-iscsi/open-iscsi/archive/%{name}-%{version}.tar.gz
 Source1:	open-iscsi.service
 Source2:	initiatorname.iscsi
-#Patch1:		open-iscsi-2.0-871-etc_iscsi.patch
-Patch2:		open-iscsi-2.0.876-Makefiles.patch
-Patch3:		0001-libkmod.patch
+Patch1:		fix-build-issue-and-update.patch
+#Patch2:		open-iscsi-2.0.876-Makefiles.patch
+#Patch3:		0001-libkmod.patch
 
 BuildRequires:	glibc-static-devel
 BuildRequires:	glibc-devel
 BuildRequires:	db-devel
 BuildRequires:	open-isns-devel
-BuildRequires:	openssl-devel
+BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(mount)
 BuildRequires:	pkgconfig(libkmod)
 BuildRequires:	pkgconfig(systemd)
@@ -63,11 +62,11 @@ Requires(preun,post):	dkms
 
 %description -n %{module_name}
 This package contains the open-iscsi initiator kernel module.
-%endif # dkms
+%endif 
+# dkms
 
 %prep
-%setup -q
-%autopatch -p1
+%autosetup -p1
 chmod 0644 README Makefile COPYING etc/iscsid.conf
 
 for arq in doc/{iscsiadm,iscsid}.8 README usr/initiator.h; do
@@ -76,6 +75,8 @@ done
 %before_configure
 
 %build
+#export CC=gcc
+#export CXX=g++
 %serverbuild
 %make user
 
