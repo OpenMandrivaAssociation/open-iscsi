@@ -13,7 +13,7 @@ Version:	2.1.5
 Release:	3
 License:	GPL
 Group:		Networking/Other
-Url:		http://www.open-iscsi.org
+Url:		https://www.open-iscsi.org
 Source0:	https://github.com/open-iscsi/open-iscsi/archive/%{name}-%{version}.tar.gz
 Source1:	open-iscsi.service
 Source2:	initiatorname.iscsi
