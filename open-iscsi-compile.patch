@@ -1,25 +1,36 @@
-diff -up open-iscsi-2a8f9d81d0d6b5094c3fe9c686e2afb2ec27058a/include/fw_context.h.omv~ open-iscsi-2a8f9d81d0d6b5094c3fe9c686e2afb2ec27058a/include/fw_context.h
-diff -up open-iscsi-2a8f9d81d0d6b5094c3fe9c686e2afb2ec27058a/include/iscsi_proto.h.omv~ open-iscsi-2a8f9d81d0d6b5094c3fe9c686e2afb2ec27058a/include/iscsi_proto.h
---- open-iscsi-2a8f9d81d0d6b5094c3fe9c686e2afb2ec27058a/include/iscsi_proto.h.omv~	2022-06-16 22:10:26.354512261 +0200
-+++ open-iscsi-2a8f9d81d0d6b5094c3fe9c686e2afb2ec27058a/include/iscsi_proto.h	2022-06-16 22:11:16.554766738 +0200
-@@ -45,7 +45,7 @@
- }
- #define zero_data(p) {p[0]=0;p[1]=0;p[2]=0;}
+diff -up open-iscsi-2.1.11/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h.omv~ open-iscsi-2.1.11/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h
+--- open-iscsi-2.1.11/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h.omv~	2026-06-01 16:48:02.788698686 +0200
++++ open-iscsi-2.1.11/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h	2026-06-01 16:48:08.239695791 +0200
+@@ -72,7 +72,7 @@
  
--#if !defined(__bitwise)
-+#if !defined(__bitwise__)
- /*
-  * If running svn modules we may need to define these.
-  * This should not go upstream since this is already properly defined there
-diff -up open-iscsi-2a8f9d81d0d6b5094c3fe9c686e2afb2ec27058a/libiscsi/Makefile.omv~ open-iscsi-2a8f9d81d0d6b5094c3fe9c686e2afb2ec27058a/libiscsi/Makefile
---- open-iscsi-2a8f9d81d0d6b5094c3fe9c686e2afb2ec27058a/libiscsi/Makefile.omv~	2022-06-16 22:23:01.300386105 +0200
-+++ open-iscsi-2a8f9d81d0d6b5094c3fe9c686e2afb2ec27058a/libiscsi/Makefile	2022-06-16 22:23:39.032581369 +0200
-@@ -49,7 +49,7 @@ fw-objs/%.o: ../utils/fwparam_ibft/%.c
- 	$(CC) $(CFLAGS) -c $< -o $@
+ struct __DLL_EXPORT iscsi_context;
  
- $(LIB): $(COMMON_OBJS) $(FW_OBJS) $(USR_OBJS) libiscsi.o
--	$(CC) $(CFLAGS) -shared -Wl,-soname,$(LIB) $^ -o $@ -L$(TOPDIR)/libopeniscsiusr -lopeniscsiusr
-+	$(CC) $(CFLAGS) -shared -Wl,-soname,$(LIB) $^ -o $@ -L$(TOPDIR)/libopeniscsiusr -lopeniscsiusr -lcrypto -lkmod
- 	ln -s -f $(LIB) libiscsi.so
+-struct __DLL_EXPORT iscsi_session;
++struct iscsi_session;
  
- $(TESTS): $(FW_OBJS) $(COMMON_OBJS) $(USR_OBJS) $(LIB)
+ struct __DLL_EXPORT iscsi_iface;
+ 
+diff -up open-iscsi-2.1.11/usr/auth.c.omv~ open-iscsi-2.1.11/usr/auth.c
+--- open-iscsi-2.1.11/usr/auth.c.omv~	2026-06-01 16:51:44.690326666 +0200
++++ open-iscsi-2.1.11/usr/auth.c	2026-06-01 16:51:54.524087960 +0200
+@@ -259,7 +259,7 @@ acl_chk_string(const char *s, unsigned i
+ static int
+ acl_str_index(const char *s, int c)
+ {
+-	char *str = strchr(s, c);
++	const char *str = strchr(s, c);
+ 
+ 	if (str)
+ 		return (str - s);
+diff -up open-iscsi-2.1.11/libiscsi/Makefile.omv~ open-iscsi-2.1.11/libiscsi/Makefile
+--- open-iscsi-2.1.11/libiscsi/Makefile.omv~	2026-06-01 16:55:47.744480990 +0200
++++ open-iscsi-2.1.11/libiscsi/Makefile	2026-06-01 16:56:42.731316200 +0200
+@@ -19,7 +19,7 @@ CFLAGS += -DSBINDIR=\"$(SBINDIR)\"
+ CFLAGS += -DISCSI_DB_ROOT=\"$(DBROOT)\"
+ CFLAGS += -DISCSI_VERSION_STR=\"$(ISCSI_VERSION_STR)\"
+ 
+-CFLAGS += -L../redhat-linux-build
++CFLAGS += -L../libopeniscsiusr
+ LDLIBS += -lopeniscsiusr -lkmod -lcrypto
+ 
+ LIB = libiscsi.so.0
