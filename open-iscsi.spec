@@ -4,7 +4,7 @@
 Summary: iSCSI daemon and utility programs
 Name: open-iscsi
 Version: 2.1.11
-Release: 2
+Release: 3
 License: GPLv2+
 URL: https://github.com/open-iscsi/open-iscsi
 Source0: https://github.com/open-iscsi/open-iscsi/archive/refs/tags/%{version}.tar.gz
