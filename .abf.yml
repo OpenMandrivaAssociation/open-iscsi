@@ -1,2 +1,4 @@
 sources:
-  2.1.11.tar.gz: 3b0ea84b6f42de24883da38f744881c2de77059c
+  04-iscsi: ae7d9b3aa6559950a19d08c447195fbb2ec9ad01
+  2.1.12.tar.gz: 606b7455f8e1c3c9bf973fab627d6bae1ce9e08e
+  iscsi-tmpfiles.conf: 02445537ae7267139e870fb399ca3bff513c0712

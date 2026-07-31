@@ -3,8 +3,8 @@
 
 Summary: iSCSI daemon and utility programs
 Name: open-iscsi
-Version: 2.1.11
-Release: 3
+Version: 2.1.12
+Release: 1
 License: GPLv2+
 URL: https://github.com/open-iscsi/open-iscsi
 Source0: https://github.com/open-iscsi/open-iscsi/archive/refs/tags/%{version}.tar.gz
@@ -28,13 +28,13 @@ Conflicts: NetworkManager < 1.20
 %rename iscsi-initiator-utils
 
 %patchlist
-https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0001-meson-don-t-hide-things-with-Wno-all.patch
-https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0002-Currently-when-iscsi.service-is-installed-it-creates.patch
-https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0003-Use-DBROOT-in-iscsi-starter.-Include-iscsi-starter-i.patch
-https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0004-fix-systemctl-path-in-iscsi-starter.service.patch
-https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0005-improved-onboot-and-shutdown-services.patch
-https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0006-iscsid.conf-Fedora-Red-Hat-defaults.patch
-https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0007-Disable-Data-Digests.patch
+# dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0001-meson-don-t-hide-things-with-Wno-all.patch
+# dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0002-Currently-when-iscsi.service-is-installed-it-creates.patch
+# dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0003-Use-DBROOT-in-iscsi-starter.-Include-iscsi-starter-i.patch
+# dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0004-fix-systemctl-path-in-iscsi-starter.service.patch
+# dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0005-improved-onboot-and-shutdown-services.patch
+# dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0006-iscsid.conf-Fedora-Red-Hat-defaults.patch
+# dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0007-Disable-Data-Digests.patch
 https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0008-Revert-iscsiadm-return-error-when-login-fails.patch
 https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0009-Coverity-scan-fixes.patch
 # Don't blindly copy 0010-use-Red-Hat-version-string-to-match-RPM-package-vers.patch -- we don't use their incorrect faulty versioning.
