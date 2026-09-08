@@ -3,7 +3,7 @@
 
 Summary: iSCSI daemon and utility programs
 Name: open-iscsi
-Version: 2.1.12
+Version: 2.1.13
 Release: 1
 License: GPLv2+
 URL: https://github.com/open-iscsi/open-iscsi
@@ -17,7 +17,7 @@ BuildRequires: pkgconfig(mount)
 BuildRequires: pkgconfig(openssl)
 BuildRequires: %mklibname -d isns
 BuildRequires: pkgconfig(libsystemd)
-Requires: %{name}-iscsiuio >= %{version}-%{release}
+Requires: %{name}-iscsiuio >= %{EVRD}
 
 # Old NetworkManager expects the dispatcher scripts in a different place
 Conflicts: NetworkManager < 1.20
@@ -53,7 +53,7 @@ Protocol networks.
 %package iscsiuio
 Summary: Userspace configuration daemon required for some iSCSI hardware
 License: BSD
-Requires: %{name} = %{version}-%{release}
+Requires: %{name} = %{EVRD}
 %rename iscsi-initiator-utils-iscsiuio
 
 %description iscsiuio
@@ -62,7 +62,7 @@ for some iSCSI offload hardware.
 
 %package devel
 Summary: Development files for %{name}
-Requires: %{name} = %{version}-%{release}
+Requires: %{name} = %{EVRD}
 %rename iscsi-initiator-utils-devel
 
 %description devel
@@ -72,7 +72,7 @@ developing applications that use %{name}.
 %package -n python-%{name}
 %{?python_provide:%python_provide python-%{name}}
 Summary: Python %{python3_version} bindings to %{name}
-Requires: %{name} = %{version}-%{release}
+Requires: %{name} = %{EVRD}
 BuildRequires: python-devel
 BuildRequires: python-setuptools
 BuildRequires: make
@@ -94,6 +94,29 @@ libiscsi interface for interacting with %{name}
 pushd libiscsi
 %py3_build
 popd
+
+# CLI parse/print and initiator-name generation are the paths iscsiadm
+# actually spends time in without a live target. Login/session I/O needs
+# hardware we do not have on the build host.
+%pgo
+adm=build/iscsiadm
+iname=build/iscsi-iname
+iscsid=build/iscsid
+igen=build/iscsi-gen-initiatorname
+[ -x "$adm" ] || { echo "PGO: instrumented iscsiadm missing" >&2; find . -name iscsiadm -type f; exit 1; }
+export ISCSI_DBROOT="$PWD/pgo-iscsidb"
+mkdir -p "$ISCSI_DBROOT"/{nodes,send_targets,static,isns,slp,ifaces}
+"$adm" --help >/dev/null 2>&1 || true
+"$adm" -V >/dev/null 2>&1 || true
+"$adm" -m node >/dev/null 2>&1 || true
+"$adm" -m session >/dev/null 2>&1 || true
+"$adm" -m iface >/dev/null 2>&1 || true
+"$adm" -m host >/dev/null 2>&1 || true
+"$adm" -m fw >/dev/null 2>&1 || true
+[ -x "$iname" ] && "$iname" >/dev/null
+[ -x "$iscsid" ] && "$iscsid" --help >/dev/null 2>&1 || true
+[ -x "$igen" ] && "$igen" --help >/dev/null 2>&1 || true
+
 
 %install
 %meson_install

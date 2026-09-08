@@ -1,6 +1,6 @@
-diff -up open-iscsi-2.1.11/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h.omv~ open-iscsi-2.1.11/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h
---- open-iscsi-2.1.11/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h.omv~	2026-06-01 16:48:02.788698686 +0200
-+++ open-iscsi-2.1.11/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h	2026-06-01 16:48:08.239695791 +0200
+diff -up open-iscsi-2.1.13/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h.omv~ open-iscsi-2.1.13/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h
+--- open-iscsi-2.1.13/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h.omv~	2026-06-01 16:48:02.788698686 +0200
++++ open-iscsi-2.1.13/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_common.h	2026-06-01 16:48:08.239695791 +0200
 @@ -72,7 +72,7 @@
  
  struct __DLL_EXPORT iscsi_context;
@@ -10,21 +10,9 @@ diff -up open-iscsi-2.1.11/libopeniscsiusr/libopeniscsiusr/libopeniscsiusr_commo
  
  struct __DLL_EXPORT iscsi_iface;
  
-diff -up open-iscsi-2.1.11/usr/auth.c.omv~ open-iscsi-2.1.11/usr/auth.c
---- open-iscsi-2.1.11/usr/auth.c.omv~	2026-06-01 16:51:44.690326666 +0200
-+++ open-iscsi-2.1.11/usr/auth.c	2026-06-01 16:51:54.524087960 +0200
-@@ -259,7 +259,7 @@ acl_chk_string(const char *s, unsigned i
- static int
- acl_str_index(const char *s, int c)
- {
--	char *str = strchr(s, c);
-+	const char *str = strchr(s, c);
- 
- 	if (str)
- 		return (str - s);
-diff -up open-iscsi-2.1.11/libiscsi/Makefile.omv~ open-iscsi-2.1.11/libiscsi/Makefile
---- open-iscsi-2.1.11/libiscsi/Makefile.omv~	2026-06-01 16:55:47.744480990 +0200
-+++ open-iscsi-2.1.11/libiscsi/Makefile	2026-06-01 16:56:42.731316200 +0200
+diff -up open-iscsi-2.1.13/libiscsi/Makefile.omv~ open-iscsi-2.1.13/libiscsi/Makefile
+--- open-iscsi-2.1.13/libiscsi/Makefile.omv~	2026-06-01 16:55:47.744480990 +0200
++++ open-iscsi-2.1.13/libiscsi/Makefile	2026-06-01 16:56:42.731316200 +0200
 @@ -19,7 +19,7 @@ CFLAGS += -DSBINDIR=\"$(SBINDIR)\"
  CFLAGS += -DISCSI_DB_ROOT=\"$(DBROOT)\"
  CFLAGS += -DISCSI_VERSION_STR=\"$(ISCSI_VERSION_STR)\"
