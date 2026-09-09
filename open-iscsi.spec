@@ -32,7 +32,7 @@ Conflicts: NetworkManager < 1.20
 # dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0002-Currently-when-iscsi.service-is-installed-it-creates.patch
 # dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0003-Use-DBROOT-in-iscsi-starter.-Include-iscsi-starter-i.patch
 # dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0004-fix-systemctl-path-in-iscsi-starter.service.patch
-# dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0005-improved-onboot-and-shutdown-services.patch
+0005-improved-onboot-and-shutdown-services.patch
 # dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0006-iscsid.conf-Fedora-Red-Hat-defaults.patch
 # dropped (no longer applies): https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0007-Disable-Data-Digests.patch
 https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/0008-Revert-iscsiadm-return-error-when-login-fails.patch
@@ -199,7 +199,6 @@ mv libiscsi.so libiscsi-compat.so
 %{_sbindir}/iscsi_fw_login
 %{_sbindir}/iscsi_offload
 %{_prefix}/lib/systemd/system-generators/ibft-rule-generator
-%{_prefix}/lib/systemd/system/iscsi-starter.service
 %{_localstatedir}/lib/iscsi
 %{_mandir}/man8/iscsi-iname.8*
 %{_mandir}/man8/iscsiadm.8*
