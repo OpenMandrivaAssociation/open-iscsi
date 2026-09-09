@@ -199,7 +199,6 @@ mv libiscsi.so libiscsi-compat.so
 %{_sbindir}/iscsi_fw_login
 %{_sbindir}/iscsi_offload
 %{_prefix}/lib/systemd/system-generators/ibft-rule-generator
-%{_localstatedir}/lib/iscsi
 %{_mandir}/man8/iscsi-iname.8*
 %{_mandir}/man8/iscsiadm.8*
 %{_mandir}/man8/iscsid.8*
