@@ -4,8 +4,9 @@
 Summary: iSCSI daemon and utility programs
 Name: open-iscsi
 Version: 2.1.13
-Release: 1
+Release: 2
 License: GPLv2+
+Group: Development/Other
 URL: https://github.com/open-iscsi/open-iscsi
 Source0: https://github.com/open-iscsi/open-iscsi/archive/refs/tags/%{version}.tar.gz
 Source4: https://src.fedoraproject.org/rpms/iscsi-initiator-utils/raw/rawhide/f/04-iscsi
